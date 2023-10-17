@@ -14,7 +14,7 @@ function ListItem({ text, checked, onDelete }) {
         {text}
       </div>
       <div>
-        <button onClick={onDelete} className="rounded-md bg-[#b81d1d] px-2 py-1">
+        <button onClick={onDelete} className="rounded-md bg-[#b81d1d] px-2 py-1 hover:bg-red-900">
           Delete
         </button>
       </div>
