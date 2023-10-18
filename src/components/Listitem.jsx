@@ -3,6 +3,22 @@ import { useState } from "react";
 function ListItem({ text, checked, onDelete }) {
   const [isChecked, setChecked] = useState(checked);
 
+  // Cuasa error :(
+  // useEffect(()=>{
+  //   // Inicio de nuestro componente
+  //   console.log("Init");
+  //   return () => {
+  //     // destroy component
+  //     console.log("cleanup");
+  //   };
+  // },[]);
+
+  //
+  useEffect(()=>{
+    console.log("checked", checked);
+    if (checked) alter("Check");
+  },[checked]);
+
   const handleCheck = () => {
     setChecked(!isChecked);
   };

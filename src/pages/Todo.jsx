@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ListItem from "../components/Listitem";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,10 +6,30 @@ function Todo() {
   const [todos, setTodos] = useState([]);
   const inputRef = useRef(null);
 
+  useEffect(()=>{
+    const getTodos = () =>{
+      fetch("https://jsonplaceholder.typicode.com/todos/1")
+        .then((response)=> response.json())
+        .then((data)=>{
+          console.log(data);
+        })
+    };
+    getTodos();
+  },[]);
+
+  // UseEffect permite ejecutar efectos secundarios de los componentes
+  useEffect(()=>{
+    console.log("useEffect",todos);
+  }, [todos])
+
   // Agregar nueva tarea
   const addTodo = () => {
     const todoValue = inputRef.current.value;
+    // const newTodo = {name: todoValue, id: uuidv4(), checked: false};
+    console.log("before", todos);
     setTodos([todoValue, ...todos]);
+    console.log("after", todos);
+    inputRef.current.value = "";
   };
 
   // Borrar tarea
