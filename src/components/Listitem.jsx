@@ -1,23 +1,21 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function ListItem({ text, checked, onDelete }) {
+function ListItem({ id, text, checked, onDelete }) {
   const [isChecked, setChecked] = useState(checked);
 
-  // Cuasa error :(
-  // useEffect(()=>{
-  //   // Inicio de nuestro componente
-  //   console.log("Init");
-  //   return () => {
-  //     // destroy component
-  //     console.log("cleanup");
-  //   };
-  // },[]);
+  useEffect(() => {
+    // Inicio de nuestro componente
+    console.log("Init");
+    return () => {
+      //Destroy component
+      console.log("cleanup");
+    };
+  }, []);
 
-  //
-  useEffect(()=>{
+  useEffect(() => {
     console.log("checked", checked);
-    if (checked) alter("Check");
-  },[checked]);
+    if (checked) alert("Check");
+  }, [checked]);
 
   const handleCheck = () => {
     setChecked(!isChecked);
@@ -30,7 +28,7 @@ function ListItem({ text, checked, onDelete }) {
         {text}
       </div>
       <div>
-        <button onClick={onDelete} className="rounded-md bg-[#b81d1d] px-2 py-1 hover:bg-red-900">
+        <button onClick={() => onDelete(id)} className="rounded-md bg-[#b81d1d] px-2 py-1 hover:bg-red-900">
           Delete
         </button>
       </div>

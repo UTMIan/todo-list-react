@@ -25,9 +25,9 @@ function Todo() {
   // Agregar nueva tarea
   const addTodo = () => {
     const todoValue = inputRef.current.value;
-    // const newTodo = {name: todoValue, id: uuidv4(), checked: false};
+    const newTodo = {name: todoValue, id: uuidv4(), checked: false};
     console.log("before", todos);
-    setTodos([todoValue, ...todos]);
+    setTodos([newTodo, ...todos]);
     console.log("after", todos);
     inputRef.current.value = "";
   };
@@ -35,7 +35,7 @@ function Todo() {
   // Borrar tarea
   const deleteTodo = (id) => {
     // Filtra la lista de tareas y actualiza el estado
-    const updatedTodos = todos.filter((_, i) => i !== id);
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
   };
 
@@ -48,8 +48,8 @@ function Todo() {
         </button>
       </div>
       <ul className="flex flex-col gap-3">
-        {todos.map((value, id) => (
-          <ListItem key={id} text={value} onDelete={() => deleteTodo(id)} />
+        {todos.map((todo) => (
+          <ListItem key={todo.id} id={todo.id} text={todo.name} onDelete={() => deleteTodo(todo.id)} />
         ))}
       </ul>
     </div>
