@@ -1,8 +1,29 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
 import ListItem from "../components/Listitem";
 import { v4 as uuidv4 } from 'uuid';
 
+function reducer(state, action){
+  console.log(action, state)
+  switch(action.type){
+    case 'ADD_TODO':
+     // alert('Agregando Todo')
+      return{
+        ...state,
+        todos: [action.newTodo,...state.todos]
+      }
+      default:
+        throw new Error('La accion no existe')
+  }
+}
+
+const initialState = {
+  todos:[{name:'Hola', id: 1, checked: false}]
+}
+
 function Todo() {
+  const [state, dispatch] = useReducer(reducer, initialState)
+  console.log(state);
+  // useState es para manejar el estado de arreglos
   const [todos, setTodos] = useState([]);
   const inputRef = useRef(null);
 
@@ -11,7 +32,7 @@ function Todo() {
       fetch("https://jsonplaceholder.typicode.com/todos/1")
         .then((response)=> response.json())
         .then((data)=>{
-          console.log(data);
+          // console.log(data);
         })
     };
     getTodos();
@@ -19,16 +40,18 @@ function Todo() {
 
   // UseEffect permite ejecutar efectos secundarios de los componentes
   useEffect(()=>{
-    console.log("useEffect",todos);
+    // console.log("useEffect",todos);
   }, [todos])
 
   // Agregar nueva tarea
   const addTodo = () => {
     const todoValue = inputRef.current.value;
+
     const newTodo = {name: todoValue, id: uuidv4(), checked: false};
-    console.log("before", todos);
+    dispatch({type:'ADD_TODO', newTodo})
+    // console.log("before", todos);
     setTodos([newTodo, ...todos]);
-    console.log("after", todos);
+    // console.log("after", todos);
     inputRef.current.value = "";
   };
 
@@ -48,7 +71,7 @@ function Todo() {
         </button>
       </div>
       <ul className="flex flex-col gap-3">
-        {todos.map((todo) => (
+        {state.todos.map((todo) => (
           <ListItem key={todo.id} id={todo.id} text={todo.name} onDelete={() => deleteTodo(todo.id)} />
         ))}
       </ul>
